@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
-import './App.css';
+import { Container, Table, Button, Modal, Form } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { openDB } from "idb";
 import { Edit2 } from "react-feather";
-
-import { Container, Table, Button, Modal, Form } from 'react-bootstrap';
+import './App.css';
 
 const App = () => {
   const [show, setShow] = useState(false);
@@ -24,10 +23,13 @@ const App = () => {
   });
 
   const handleClose = () => setShow(false);
-  const handleShow = () => {
-    setShow(true)
-  };
+  const handleShow = () => setShow(true);
 
+  /**
+         * @function dbCreate
+         * @params
+         * @description used to create db and insert sector data into db
+         */
   const dbCreate = async () => {
     openDB("db1", 1, {
       upgrade(db) {
@@ -118,6 +120,11 @@ const App = () => {
     db1.close();
   }
 
+  /**
+         * @function getSector
+         * @params
+         * @description used to get the list of sector
+         */
   const getSector = async () => {
     const db1 = await openDB("db1", 1);
     db1.getAll("sector").then(result => {
@@ -128,6 +135,11 @@ const App = () => {
     });
   }
 
+  /**
+         * @function getUser
+         * @params
+         * @description used to get the list of user
+         */
   const getUser = async () => {
     const db1 = await openDB("db1", 1);
     db1.getAll("user").then(result => {
@@ -153,7 +165,6 @@ const App = () => {
          * @description used to add or update the user
          */
   const onSubmit = async (data) => {
-    console.log(data)
     if (state === 'Add') {
       const db1 = await openDB("db1", 1);
       db1.add("user", JSON.stringify(data), userCount + 1)
@@ -174,7 +185,7 @@ const App = () => {
 
   return (
     <Container className='text-center'>
-      <Table striped hover className='mt-3 text-center'>
+      <Table responsive striped hover className='mt-3 text-center'>
         <thead>
           <tr className='bg-secondary'>
             <th className='px-3 border-end'>Name</th>
